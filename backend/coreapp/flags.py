@@ -79,6 +79,22 @@ COMMON_ARMCC_FLAGS: Flags = [
     Checkbox(id="armcc_debug", flag="--debug"),
 ]
 
+
+COMMON_ADS_FLAGS: Flags = [
+    FlagSet(
+        id="ads_opt_level", flags=["-O0", "-O1", "-O2", "-O3", "-Ospace", "-Otime"]
+    ),
+    LanguageFlagSet(
+        id="ads_language",
+        flags={"--c": Language.C, "--cpp": Language.CXX},
+    ),
+    FlagSet(id="ads_instset", flags=["--arm", "--thumb"]),
+    FlagSet(id="ads_fpu", flags=["-fpu fpa", "-fpu vfp", "-fpu softfpa", "-fpu softvfp", "-fpu none"]),
+    FlagSet(id="ads_reentrant", flags=["/norwpi", "/rwpi"]),
+    FlagSet(id="ads_stackcheck", flags=["/noswst", "/swst"]),
+    Checkbox(id="ads_debug", flag="--debug"),
+]
+
 COMMON_CLANG_FLAGS: Flags = [
     FlagSet(
         id="clang_opt_level", flags=["-O0", "-O1", "-O2", "-O3", "-Ofast", "-Os", "-Oz"]

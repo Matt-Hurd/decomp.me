@@ -1,6 +1,7 @@
 gba:
   - agbcc
   - agbccpp
+  - ads1.2
 
 gc_wii:
   - mwcc_233_144

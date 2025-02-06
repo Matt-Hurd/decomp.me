@@ -8,6 +8,7 @@ from typing import ClassVar, List, Optional, OrderedDict
 from coreapp import platforms
 from coreapp.flags import (
     COMMON_ARMCC_FLAGS,
+    COMMON_ADS_FLAGS,
     COMMON_CLANG_FLAGS,
     COMMON_SHC_FLAGS,
     COMMON_GCC_FLAGS,
@@ -107,6 +108,11 @@ class ClangCompiler(Compiler):
 class ArmccCompiler(Compiler):
     flags: ClassVar[Flags] = COMMON_ARMCC_FLAGS
     library_include_flag: str = "-J"
+
+@dataclass(frozen=True)
+class ADSCompiler(Compiler):
+    flags: ClassVar[Flags] = COMMON_ADS_FLAGS
+    library_include_flag: str = ""
 
 
 @dataclass(frozen=True)
@@ -230,6 +236,14 @@ AGBCCPP = GCCCompiler(
     platform=GBA,
     cc='cc -E -I "${COMPILER_DIR}"/include -iquote include -nostdinc -undef "$INPUT" | "${COMPILER_DIR}"/bin/agbcp -quiet $COMPILER_FLAGS -o - | arm-none-eabi-as -mcpu=arm7tdmi -o "$OUTPUT"',
 )
+
+
+ADS_1_2 = ADSCompiler(
+    id="adsv1.2",
+    platform=GBA,
+    cc='${WIBO} "${COMPILER_DIR}"/bin/tcc.exe ${COMPILER_FLAGS} -I "${COMPILER_DIR}"/include $COMPILER_FLAGS -o "${OUTPUT}" "${INPUT}"'
+)
+
 # N3DS
 ARMCC_CC = '${WIBO} "${COMPILER_DIR}"/bin/armcc.exe -c --cpu=MPCore --fpmode=fast --apcs=/interwork -I "${COMPILER_DIR}"/include $COMPILER_FLAGS -o "${OUTPUT}" "${INPUT}"'
 
